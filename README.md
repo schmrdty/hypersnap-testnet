@@ -5,16 +5,17 @@ software is upstream [farcasterorg/hypersnap](https://github.com/farcasterorg/hy
 unchanged; this repository holds only the network file, compose files, a join
 script and the runbook.
 
-Status: TESTED as of 2026-11-17 (`docs/rehearsal-2026-11.md`: two-validator genesis
-producing blocks with shard witnesses, a read node syncing from block 1, a validator
-added and removed at announced heights). It becomes EXERCISED when a node not run by
-the author syncs from the public chain, and OPEN when the RFC is posted and the first
-outside operator's node is in sync.
+Status: running since 2026-11-17 with two validators and open for operators. The RFC
+is [issue 1](https://github.com/schmrdty/hypersnap-testnet/issues/1); the rehearsal
+record is `docs/rehearsal-2026-11.md` (two-validator genesis with shard witnesses, a
+read node syncing from block 1, a validator added and removed at announced heights,
+a native account posting a cast). Health page:
+https://snapdiff.schmidtiest.xyz/?net=testnet
 
 | File | Purpose |
 |---|---|
-| `RFC.md` | Why the testnet exists, who is wanted, policies (readable version) |
-| `RFC-ISSUE.md` | The same as a formal GitHub issue body: summary, motivation, specification, procedure, governance, security, open questions |
+| `RFC.md` | Why the testnet exists, who is wanted, policies (readable version of issue 1) |
+| `RFC-ISSUE.md` | The text of issue 1: summary, motivation, specification, procedure, governance, security, open questions |
 | `TELEGRAM-POST.md` | The operator call for the Telegram group, plain text |
 | `RUNBOOK.md` | Operator steps: join, set changes, upgrades, troubleshooting |
 | `join.sh` | `validator`, `readnode`, `status` |
