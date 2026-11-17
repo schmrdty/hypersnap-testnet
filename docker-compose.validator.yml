@@ -1,0 +1,109 @@
+# Hypersnap testnet: validator node.
+#
+# Copy to docker-compose.yml (join.sh does this) and fill .env with:
+#   TESTNET_PRIVATE_KEY=<64 hex chars, the ed25519 secret from join.sh>
+#   PUBLIC_IP=<this host's public IPv4>
+# Compose substitutes ${VAR} inside HYPERSNAP_CONFIG; a literal $ is written $$.
+#
+# Network-wide settings (validator sets, topic cutovers, native registration
+# heights, discovery seeds) live in validators.testnet.toml, which the entrypoint
+# appends to config.toml. Pull that file before every announced height.
+#
+# Based on upstream docker-compose.mainnet.yml (farcasterorg/hypersnap, 2026-11-16)
+# with these deliberate differences, each explained in RUNBOOK.md:
+#   fc_network Testnet, rocksdb_dir .rocks.testnet, fnames disabled, no chain RPC,
+#   snapshot loading off (the chain starts at block 1 and is small), api on.
+services:
+  hypersnap:
+    image: farcasterorg/hypersnap:latest
+    pull_policy: always
+    init: true
+    environment:
+      RUST_BACKTRACE: "full"
+      HYPERSNAP_CONFIG: |
+        rpc_address="0.0.0.0:3383"
+        http_address="0.0.0.0:3381"
+        rocksdb_dir=".rocks.testnet"
+        fc_network="Testnet"
+
+        [statsd]
+        prefix="hypersnap-testnet"
+        addr="statsd:8125"
+        use_tags=true
+
+        [fnames]
+        disable = true
+
+        [gossip]
+        address="/ip4/0.0.0.0/udp/3382/quic-v1"
+        announce_address="/ip4/${PUBLIC_IP}/udp/3382/quic-v1"
+        bootstrap_peers = "${TESTNET_BOOTSTRAP_PEERS:-}"
+
+        [consensus]
+        private_key = "${TESTNET_PRIVATE_KEY}"
+        shard_ids = [1,2]
+        num_shards = 2
+
+        [hyper]
+        enabled = true
+
+        [api]
+        enabled = true
+
+        [api.social_graph]
+        enabled = true
+
+        [api.channels]
+        enabled = true
+
+        [api.metrics]
+        enabled = true
+
+        [api.feeds]
+        enabled = true
+
+        [api.conversations]
+        enabled = true
+
+        [snapshot]
+        load_db_from_snapshot=false
+    # Writes HYPERSNAP_CONFIG to config.toml, appends the network file, unsets the
+    # variable so the node's environment holds no copy of the key, then runs.
+    entrypoint:
+      - "/bin/bash"
+      - "-c"
+      - 'set -euo pipefail; printf "%s\n" "$$HYPERSNAP_CONFIG" > config.toml; unset HYPERSNAP_CONFIG; cat /app/validators.toml >> config.toml; exec "$$0" "$$@"'
+    command: [ "./hypersnap", "--config-path", "config.toml" ]
+    depends_on:
+      statsd:
+        condition: service_started
+    restart: always
+    ports:
+      - "3381:3381/tcp"
+      - "3382:3382/udp"
+      - "127.0.0.1:3383:3383/tcp"
+    volumes:
+      - .rocks.testnet:/app/.rocks.testnet
+      - ./validators.testnet.toml:/app/validators.toml:ro
+    networks:
+      - hypersnap
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+  statsd:
+    image: graphiteapp/graphite-statsd:1.1.10-5
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "8126"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 1m
+    networks:
+      - hypersnap
+
+networks:
+  hypersnap:
+    driver: bridge

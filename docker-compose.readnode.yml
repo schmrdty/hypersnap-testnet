@@ -1,0 +1,99 @@
+# Hypersnap testnet: read node (no consensus key, follows the chain, serves the API).
+#
+# Copy to docker-compose.yml (join.sh does this) and fill .env with:
+#   PUBLIC_IP=<this host's public IPv4>
+# TESTNET_BOOTSTRAP_PEERS is filled by join.sh from validators.testnet.toml.
+# Identical to docker-compose.validator.yml except: no [consensus] private_key line
+# (an absent key makes the node a read node; an empty string would not), and the
+# gRPC port 3383 stays bound to localhost.
+services:
+  hypersnap:
+    image: farcasterorg/hypersnap:latest
+    pull_policy: always
+    init: true
+    environment:
+      RUST_BACKTRACE: "full"
+      HYPERSNAP_CONFIG: |
+        rpc_address="0.0.0.0:3383"
+        http_address="0.0.0.0:3381"
+        rocksdb_dir=".rocks.testnet"
+        fc_network="Testnet"
+
+        [statsd]
+        prefix="hypersnap-testnet"
+        addr="statsd:8125"
+        use_tags=true
+
+        [fnames]
+        disable = true
+
+        [gossip]
+        address="/ip4/0.0.0.0/udp/3382/quic-v1"
+        announce_address="/ip4/${PUBLIC_IP}/udp/3382/quic-v1"
+        bootstrap_peers = "${TESTNET_BOOTSTRAP_PEERS}"
+
+        [consensus]
+        shard_ids = [1,2]
+        num_shards = 2
+
+        [hyper]
+        enabled = true
+
+        [api]
+        enabled = true
+
+        [api.social_graph]
+        enabled = true
+
+        [api.channels]
+        enabled = true
+
+        [api.metrics]
+        enabled = true
+
+        [api.feeds]
+        enabled = true
+
+        [api.conversations]
+        enabled = true
+
+        [snapshot]
+        load_db_from_snapshot=false
+    entrypoint:
+      - "/bin/bash"
+      - "-c"
+      - 'set -euo pipefail; printf "%s\n" "$$HYPERSNAP_CONFIG" > config.toml; unset HYPERSNAP_CONFIG; cat /app/validators.toml >> config.toml; exec "$$0" "$$@"'
+    command: [ "./hypersnap", "--config-path", "config.toml" ]
+    depends_on:
+      statsd:
+        condition: service_started
+    restart: always
+    ports:
+      - "3381:3381/tcp"
+      - "3382:3382/udp"
+      - "127.0.0.1:3383:3383/tcp"
+    volumes:
+      - .rocks.testnet:/app/.rocks.testnet
+      - ./validators.testnet.toml:/app/validators.toml:ro
+    networks:
+      - hypersnap
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+  statsd:
+    image: graphiteapp/graphite-statsd:1.1.10-5
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "8126"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 1m
+    networks:
+      - hypersnap
+
+networks:
+  hypersnap:
+    driver: bridge

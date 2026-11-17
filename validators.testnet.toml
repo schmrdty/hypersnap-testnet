@@ -1,0 +1,80 @@
+# Hypersnap Testnet: network-wide configuration.
+#
+# Every node appends this file to its config.toml at start (see the compose
+# entrypoint). It holds the validator set history, the gossip topic schedule,
+# the native registration schedule and the discovery seeds. Pull the newest copy
+# and restart your node before every announced effective height.
+#
+# Rules (same shape as upstream mainnet validators.toml):
+#   - A validator change is a NEW [[consensus.validator_sets]] entry appended with
+#     a future effective_at; earlier entries are never edited, so the history replays.
+#   - topic_cutovers and native_registration.activation_heights must be identical
+#     maps with one entry per shard including shard 0 (the node refuses to start
+#     otherwise). On this testnet both are 0: Hypersnap topics and native accounts
+#     from block 1.
+#   - Discovery seeds are ordinary nodes; seeding grants no voting power.
+#
+# Public key => operator mapping:
+#   0796d669192621a54f6ae2625e3bdd60608261b4ebdf84dfbcf2b6457ab73636  - testnet-0 (genesis validator, dedicated server)
+#   92927a67bacafb1782e2f4e58c2fd904dcdecfdb93db1abd7e1fc532cec33d63  - testnet-1 (second genesis validator, same server, port 4382)
+#   d0383eb4675259a972f695d11c794d0a04da3bb72654e00b0616a33969b7c04d  - testnet-2 (set-change rehearsal, same server, port 5382)
+
+# Genesis validator set (regenesis 2026-11-17, second genesis): two validators on all
+# shards from height 0. Two are needed so that block 1 is validated by a peer: a lone
+# validator commits an empty-witness block 1 and the block shard can never recover
+# (docs/upstream-issue-empty-witnesses.md).
+[[consensus.validator_sets]]
+effective_at = 0
+shard_ids = [ 0, 1, 2 ]
+validator_public_keys = [
+  "0796d669192621a54f6ae2625e3bdd60608261b4ebdf84dfbcf2b6457ab73636",
+  "92927a67bacafb1782e2f4e58c2fd904dcdecfdb93db1abd7e1fc532cec33d63",
+]
+
+# Added testnet-2 (d0383e...) on all shards: rehearsal of the onboarding procedure on
+# the second genesis, 2026-11-17. Announced at height 4393, effective at 6000.
+[[consensus.validator_sets]]
+effective_at = 6_000
+shard_ids = [ 0, 1, 2 ]
+validator_public_keys = [
+  "0796d669192621a54f6ae2625e3bdd60608261b4ebdf84dfbcf2b6457ab73636",
+  "92927a67bacafb1782e2f4e58c2fd904dcdecfdb93db1abd7e1fc532cec33d63",
+  "d0383eb4675259a972f695d11c794d0a04da3bb72654e00b0616a33969b7c04d",
+]
+
+# Removed testnet-2 (d0383e...) on all shards: rehearsal of validator removal,
+# 2026-11-17. Announced at height 6179, effective at 7700. testnet-2 stays on the
+# network as a read node and keeps its seed entry.
+[[consensus.validator_sets]]
+effective_at = 7_700
+shard_ids = [ 0, 1, 2 ]
+validator_public_keys = [
+  "0796d669192621a54f6ae2625e3bdd60608261b4ebdf84dfbcf2b6457ab73636",
+  "92927a67bacafb1782e2f4e58c2fd904dcdecfdb93db1abd7e1fc532cec33d63",
+]
+
+[gossip.topic_cutovers]
+"0" = 0
+"1" = 0
+"2" = 0
+
+[consensus.native_registration.activation_heights]
+"0" = 0
+"1" = 0
+"2" = 0
+
+[consensus.native_registration.api_activation_heights]
+"1" = 0
+"2" = 0
+
+[gossip.discovery]
+enabled = true
+target_peers = 12
+bootstrap_peers = [
+  # testnet-0 (genesis validator)
+  "/ip4/93.115.27.5/udp/3382/quic-v1/p2p/12D3KooWAKzRZCQkaeZuC7vMATpfbJN27xEXMFhYZsW8h7eMBKKj",
+  # testnet-1 (second genesis validator)
+  "/ip4/93.115.27.5/udp/4382/quic-v1/p2p/12D3KooWKgXEoET55p4ZPwNxANunvCgd1hNzSn8QpEoLvHkvmCwC",
+  # testnet-2 (rehearsal node)
+  "/ip4/93.115.27.5/udp/5382/quic-v1/p2p/12D3KooWPqAiKeG2EPkFvWWoYL92542ysJZ4xFtSE1gaZYstnMwA",
+]

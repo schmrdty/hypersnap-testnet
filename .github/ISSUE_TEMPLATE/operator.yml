@@ -1,0 +1,63 @@
+name: Operator registration
+description: Register a Hypersnap testnet node (read node or validator candidate)
+title: "[operator] <handle>: <validator|readnode>"
+labels: ["operator"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Post only public values. Never paste your private key, your .env, or your .pem file.
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role
+      options:
+        - Read node
+        - Validator candidate
+    validations:
+      required: true
+  - type: input
+    id: handle
+    attributes:
+      label: Operator handle
+      description: How we address you (Farcaster or GitHub handle)
+    validations:
+      required: true
+  - type: input
+    id: ip
+    attributes:
+      label: Public IPv4 (or DNS name) of the node
+      placeholder: 203.0.113.10
+    validations:
+      required: true
+  - type: input
+    id: peer
+    attributes:
+      label: libp2p peer id
+      description: Printed by ./join.sh status
+      placeholder: 12D3Koo...
+    validations:
+      required: true
+  - type: input
+    id: pubkey
+    attributes:
+      label: Consensus PUBLIC key (validators only)
+      description: 64 hex characters, printed once by ./join.sh validator
+  - type: input
+    id: heights
+    attributes:
+      label: Current heights from ./join.sh status
+      placeholder: shard 0 12345, shard 1 12340, shard 2 12338
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmations
+      options:
+        - label: UDP 3382 is reachable from the internet on this node
+          required: true
+        - label: I will pull validators.testnet.toml and restart before every announced height
+          required: true
+        - label: I understand the chain has no value and may be reset with seven days notice
+          required: true
