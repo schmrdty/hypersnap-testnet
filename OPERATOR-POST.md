@@ -1,4 +1,4 @@
-# Operator call (Telegram)
+# Operator call
 
 Hypersnap testnet is up.
 

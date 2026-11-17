@@ -16,7 +16,7 @@ https://snapdiff.schmidtiest.xyz/?net=testnet
 |---|---|
 | `RFC.md` | Why the testnet exists, who is wanted, policies (readable version of issue 1) |
 | `RFC-ISSUE.md` | The text of issue 1: summary, motivation, specification, procedure, governance, security, open questions |
-| `TELEGRAM-POST.md` | The operator call for the Telegram group, plain text |
+| `OPERATOR-POST.md` | The operator call, plain text for chat groups |
 | `RUNBOOK.md` | Operator steps: join, set changes, upgrades, troubleshooting |
 | `join.sh` | `validator`, `readnode`, `status` |
 | `docker-compose.validator.yml`, `docker-compose.readnode.yml` | Node definitions; `join.sh` copies one to `docker-compose.yml` |
