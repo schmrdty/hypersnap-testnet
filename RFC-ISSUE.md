@@ -28,7 +28,7 @@ validator set, releases and resets.
    recreated; the runbook now says so.
 3. Fresh-network behavior is untested upstream. The first genesis exposed a bug: a lone
    validator commits block 1 with no shard witnesses and the block shard halts for good
-   once a second validator validates (upstream issue TBD-ISSUE-LINK).
+   once a second validator validates (upstream issue https://github.com/farcasterorg/hypersnap/issues/88).
 
 ## Specification
 

@@ -7,7 +7,7 @@ the two TBD values, then paste the block below as one message. Plain text on pur
 ```
 Hypersnap testnet is up.
 
-What it is: a Hypersnap chain with fc_network Testnet, three shards like mainnet, 1 s blocks, genesis 2026-11-17 (second genesis; the first one taught us a bug, reported upstream). Accounts are native (custody proof of work, no contract, no fnames). First native FID: 4294967296. Code is upstream farcasterorg/hypersnap:latest, unchanged. No value, resettable with 7 days notice.
+What it is: a Hypersnap chain with fc_network Testnet, three shards like mainnet, 1 s blocks, genesis 2026-11-17 (second genesis; the first one taught us a bug, farcasterorg/hypersnap issue 88). Accounts are native (custody proof of work, no contract, no fnames). First native FID: 4294967296. Code is upstream farcasterorg/hypersnap:latest, unchanged. No value, resettable with 7 days notice.
 
 What exists today: two validators (testnet-0, testnet-1), both mine, on one server. Public API: https://hst0.schmidtiest.xyz/v1/info. Health page: https://snapdiff.schmidtiest.xyz/?net=testnet
 

@@ -18,7 +18,7 @@ run by operators gives everyone a rehearsal space that nobody has to protect.
 | Genesis | 2026-11-17, second genesis about 16:45 UTC (the first, single-validator chain was discarded the same day) |
 | `fc_network` | Testnet (2) |
 | Block time | 1 s (measured: 60 blocks in 61 s) |
-| Validators at genesis | 2: testnet-0 and testnet-1, both operated by the author on one dedicated server. Two because a lone validator commits block 1 without shard witnesses and the block shard can never recover once a peer validates (found 2026-11-17, reported upstream) |
+| Validators at genesis | 2: testnet-0 and testnet-1, both operated by the author on one dedicated server. Two because a lone validator commits block 1 without shard witnesses and the block shard can never recover once a peer validates (found 2026-11-17, upstream issue 88) |
 | Accounts | native registration from block 1, no contracts, no fnames |
 | Public API | `https://hst0.schmidtiest.xyz/v1/info` (genesis validator) and `https://hst1.schmidtiest.xyz/v1/info` (second genesis validator) |
 | Health page | https://snapdiff.schmidtiest.xyz/?net=testnet |
