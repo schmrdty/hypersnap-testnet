@@ -1,10 +1,6 @@
-# Draft upstream issue: fresh network commits block 1 with no shard witnesses, block shard halts once a second validator joins
+# Upstream issue 88: fresh network commits block 1 with no shard witnesses
 
-Posted as https://github.com/farcasterorg/hypersnap/issues/88 on 2026-11-17. Original draft, written after the regenesis confirmed
-the two-validator genesis carries witnesses. Facts below are from the 2026-11-17
-testnet rehearsal (`rehearsal-2026-11.md`).
-
----
+Filed as https://github.com/farcasterorg/hypersnap/issues/88 on 2026-11-17. Text as filed:
 
 **Summary.** On a brand-new network (fc_network Testnet, 0.17.15, one validator at
 genesis) every block from 1 onward is committed with an empty `shard_witness`

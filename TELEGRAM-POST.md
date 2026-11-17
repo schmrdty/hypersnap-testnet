@@ -1,10 +1,5 @@
-# Telegram post: testnet group
+# Operator call (Telegram)
 
-Status: DRAFT until section F of the rehearsal passes and the repo is public. Replace
-the two TBD values, then paste the block below as one message. Plain text on purpose
-(Telegram markdown is unreliable across clients).
-
-```
 Hypersnap testnet is up.
 
 What it is: a Hypersnap chain with fc_network Testnet, three shards like mainnet, 1 s blocks, genesis 2026-11-17 (second genesis; the first one taught us a bug, farcasterorg/hypersnap issue 88). Accounts are native (custody proof of work, no contract, no fnames). First native FID: 4294967296. Code is upstream farcasterorg/hypersnap:latest, unchanged. No value, resettable with 7 days notice.
@@ -23,4 +18,3 @@ How to join, about ten minutes:
 What happens next: read nodes are live as soon as they sync. Validators are added in batches: one pull request to validators.testnet.toml with an effective height announced 48 hours ahead, everyone pulls and restarts before it. First batch goes in when two candidates have filed. Testnet tracks the stable latest tag; nightly test windows get announced with a start, a tag and an end.
 
 Full RFC and runbook: in the repo. Questions here or in the repo issues.
-```

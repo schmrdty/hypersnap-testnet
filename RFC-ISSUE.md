@@ -1,12 +1,4 @@
-# GitHub issue draft: RFC, a community-run Hypersnap testnet
-
-Post as an issue on the testnet repo once it is public (title below). `RFC.md` is the
-readable version; this is the formal one. TBD fields: repo URL, contact, the set-change
-timing from the rehearsal.
-
-Title: `RFC: community-run Hypersnap testnet (validators and read nodes wanted)`
-
----
+# RFC: community-run Hypersnap testnet (validators and read nodes wanted)
 
 ## Summary
 
@@ -113,4 +105,4 @@ testnet makes no protocol decisions; it reports findings upstream as issues.
 
 ## Contact
 
-TBD-CONTACT, or this repo's issues.
+This repository's issues.

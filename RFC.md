@@ -1,7 +1,6 @@
 # RFC: a community-run Hypersnap testnet
 
-Status: DRAFT, not published. Fields marked TBD are filled after the rehearsal
-(`docs/rehearsal-2026-11.md`) and before the first public post.
+The readable version of the RFC. The GitHub issue form is `RFC-ISSUE.md`.
 
 ## 1. Why
 
@@ -73,4 +72,4 @@ the code is upstream Hypersnap unchanged; this repo holds configuration only.
 
 ## 8. Contact
 
-TBD (channel chosen by the author before publication).
+This repository's issues.
