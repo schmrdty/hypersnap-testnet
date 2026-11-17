@@ -20,6 +20,7 @@ outside operator's node is in sync.
 | `join.sh` | `validator`, `readnode`, `status` |
 | `docker-compose.validator.yml`, `docker-compose.readnode.yml` | Node definitions; `join.sh` copies one to `docker-compose.yml` |
 | `validators.testnet.toml` | Network-wide file appended to every node's config: validator sets, topic cutovers, native registration heights, discovery seeds |
+| `tools/first-cast/` | Registers a gasless signer for a native account and posts one cast; the end-to-end client test |
 | `docs/rehearsal-2026-11.md` | The rehearsal checklist and its results |
 | `.github/ISSUE_TEMPLATE/operator.yml` | Operator registration |
 

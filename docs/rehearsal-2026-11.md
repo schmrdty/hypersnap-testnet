@@ -140,12 +140,12 @@ bits), `/v1/nativeRegistration` shows `active: true`, `firstNativeFid 4294967296
 limits for the FID. `numFidRegistrations` in `/v1/info` stays 0 (it counts on-chain
 registrations only). TESTED.
 
-2. Posting a cast from the new FID: DEFERRED. The image ships no tool for it:
-`submit_message` is a load generator that signs for FIDs 1..N with a fixed dev key
-and has no signer on this chain. A cast needs a gasless `KEY_ADD` signed by the
-custody key, then a `CastAdd` signed by that signer. Follow-up: a small script in
-this repo (`tools/first-cast`) that does both against a node, after sections E
-and F. Until then the account path is TESTED up to registration only.
+2. Posting a cast from a native FID: TESTED on the second genesis, 2026-11-17, with
+`tools/first-cast` (the image ships no tool for it). Fresh custody key, `native_register
+--network 2` gave FID 4294967296, then the tool registered an ed25519 signer with a
+gasless `KEY_ADD` (custody-signed EIP-712, metadata with a SignedKeyRequest by the same
+custody), the signer appeared in `signersByFid`, a `CAST_ADD` signed by it was accepted
+and read back from `castsByFid` on hst0 with network `FARCASTER_NETWORK_TESTNET`.
 
 ## E. Read node joins from block 1
 
@@ -334,7 +334,7 @@ then destroy the VPS at the provider.
 |---|---|---|
 | Single validator produces blocks | TESTED, but with empty shard witnesses (bug); two-validator genesis used | 2026-11-17 |
 | Block time measured | 1.0 s | 2026-11-17 |
-| Native FID registered and cast read back | registration TESTED (first chain); cast DEFERRED (needs signer tool) | 2026-11-17 |
+| Native FID registered and cast read back | TESTED end to end with tools/first-cast on the second genesis | 2026-11-17 |
 | Read node reached the tip from block 1 (duration) | under 60 s at 1,259 blocks; under 60 s at 4,393 blocks | 2026-11-17 |
 | Validator added at announced height | TESTED (second genesis, height 6000, no pause) | 2026-11-17 |
 | Validator removed at announced height | TESTED (height 7700; restarts were late but consistent) | 2026-11-17 |
