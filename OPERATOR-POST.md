@@ -1,4 +1,4 @@
-# Operator call (Telegram)
+# Operator call
 
 Hypersnap testnet is up.
 
@@ -17,4 +17,4 @@ How to join, about ten minutes:
 
 What happens next: read nodes are live as soon as they sync. Validators are added in batches: one pull request to validators.testnet.toml with an effective height announced 48 hours ahead, everyone pulls and restarts before it. First batch goes in when two candidates have filed. Testnet tracks the stable latest tag; nightly test windows get announced with a start, a tag and an end.
 
-Full RFC and runbook: in the repo. Questions here or in the repo issues.
+Full RFC and runbook: in the repo. Questions here
