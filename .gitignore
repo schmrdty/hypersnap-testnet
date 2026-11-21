@@ -1,3 +1,6 @@
 .env
 .rocks*
 *.pem
+skills/hypersnap-node-workspace/
+.devnet/
+.claude/
