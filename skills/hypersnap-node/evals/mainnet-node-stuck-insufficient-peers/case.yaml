@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: mainnet-node-stuck-insufficient-peers
+expected_outcome: |
+  The response asks for or runs the two /v1/info reads, identifies the two likely causes (Snapchain-only bootstrap_peers and UDP 3382 blocked by ufw), gives the ufw allow line and the bootstrap_peers replacement with /ip4/ Hypersnap validator entries taken from a working node's /v1/mesh, warns that hypersnap.sh upgrade overwrites a customized compose, and tells how to confirm recovery (heights climbing within about 90 s).

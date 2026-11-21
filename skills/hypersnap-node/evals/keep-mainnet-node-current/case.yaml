@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: keep-mainnet-node-current
+expected_outcome: |
+  The response gives an ongoing routine (regular two-read height check and version check, ideally automated with an alert on frozen heights; disk watch; diffing validators.toml against the published copy), explains how to learn about releases and set changes (upstream repository releases, Docker Hub tags, maintainer announcements, comparing versions with other nodes), warns that ./hypersnap.sh upgrade would overwrite the edited compose and gives the manual pull plus docker compose up -d routine with the downtime stated, says every node must carry the new validators.toml and restart before the announced height, and tells the operator to back up the identity key.

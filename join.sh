@@ -76,7 +76,11 @@ case "$ROLE" in
     ;;
   status)
     curl -s -m 10 localhost:3381/v1/info | python3 -c 'import sys,json; d=json.load(sys.stdin); print("version", d.get("version")); [print("shard", s["shardId"], "height", s["maxHeight"], "delay", s.get("blockDelay")) for s in d.get("shardInfos", [])]'
-    curl -s -m 10 localhost:3381/v1/mesh | python3 -c 'import sys,json; m=json.load(sys.stdin)["self"]; print("peer id", m["peer_id"], "network", m["network"], "validator", m["is_validator"], "gossip", m["gossip_address"])'
+    curl -s -m 10 localhost:3381/v1/info | python3 -c 'import sys,json; d=json.load(sys.stdin); print("peer id", d.get("peer_id"))'
+    curl -s -m 10 localhost:3381/v1/currentPeers | python3 -c 'import sys,json; d=json.load(sys.stdin); print("peers", len(d.get("peers", [])))'
+    # The mesh view is the richer read but sits behind admin_rpc_auth; show it when open.
+    curl -s -m 10 localhost:3381/v1/mesh | python3 -c 'import sys,json; m=json.load(sys.stdin)["self"]; print("validator", m["is_validator"], "network", m["network"], "gossip", m["gossip_address"])' 2>/dev/null || echo "mesh view closed (admin_rpc_auth set); role: see the health page or the validators file"
+    docker compose logs --since 10m --no-log-prefix hypersnap 2>/dev/null | grep -a "Consensus ready" | cut -c1-110
     exit 0
     ;;
   *)

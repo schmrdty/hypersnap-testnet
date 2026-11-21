@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: testnet-validator-join-plan
+expected_outcome: |
+  The response picks the testnet validator path, states the minimums and the firewall ports (3381/tcp, 3382/udp), gives the clone and ./join.sh validator steps in order, says the node runs as a read node until a set change includes the key, names exactly what to post (public IP, peer id, PUBLIC key) and what never to post (private key, .env, .pem), and ends with the verification reads a minute apart.

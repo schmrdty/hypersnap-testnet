@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: restart-vs-recreate-after-env-change
+expected_outcome: |
+  The response explains that restart keeps the old container environment so the key was never loaded, tells the operator to run docker compose up -d now (before the height), states what happens if the height passes without it (one signer short, chain halts at the height minus one until recreated), and gives the status read to confirm validator True.
